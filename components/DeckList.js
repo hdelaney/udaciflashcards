@@ -5,8 +5,6 @@ import { handleInitializeData } from '../actions/shared';
 import DeckInfo from './DeckInfo';
 
 
-
-
 class DeckList extends Component {
 
 	componentDidMount () {
@@ -20,7 +18,9 @@ class DeckList extends Component {
 			<View>
 				{console.log('THESE ARE THE DEEEECKS:', decks)}
 				{decks.map((deck) => (
-					<DeckInfo key={deck[0]} deck={deck} />
+					<View key={deck[0]}>
+						<DeckInfo deck={deck} />
+					</View>
 				))}
 			</View>
 		)
