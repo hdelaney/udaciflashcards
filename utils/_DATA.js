@@ -1,3 +1,9 @@
+import { AsyncStorage } from 'react-native';
+
+
+export const FLASHCARDS_STORAGE_KEY = 'UdaciFlashcards:flashcards';
+
+
 let decks = {
 	"vb1kcvta0o6ne6ldkwmkm": {
 		deckId: 'vb1kcvta0o6ne6ldkwmkm',
@@ -31,10 +37,19 @@ let questions = {
 	}]
 }
 
+export function initializeData () {
+		return new Promise((res, rej) => {
+			res(_getDecks())})
+				.then((decks) => {
+					return AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(decks))
+				})
+}
+
+
 
 
 //udacity/tylermcginnis generate ID code
-function generateAnId () {
+export function generateAnId () {
 	return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 }
 
@@ -49,5 +64,11 @@ export function _getQuestions () {
   return new Promise((res, rej) => {
     setTimeout(() => res({...questions}), 1000)
   })
+}
+
+export function formatFlashcardResults (results) {
+	return results == null || undefined
+	? initializeData()
+	: JSON.parse(results)
 }
 

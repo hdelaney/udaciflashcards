@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
-import { handleInitializeData } from '../actions/shared';
+import { receiveDecks } from '../actions/decks';
 import DeckInfo from './DeckInfo';
+import { fetchFlashcardData } from '../utils/api';
 
 
 class DeckList extends Component {
 
 	componentDidMount () {
-    this.props.dispatch(handleInitializeData());
+		const { dispatch } = this.props;
+    fetchFlashcardData()
+    	.then((decks) => dispatch(receiveDecks(decks)))
   }
+
 
 	render() {
 		const { decks } = this.props;
@@ -22,6 +26,7 @@ class DeckList extends Component {
 						<DeckInfo deck={deck} />
 					</View>
 				))}
+				<Button onPress={() => console.log('Button pressed!')} title='Submit Get Data' />
 			</View>
 		)
 	}
