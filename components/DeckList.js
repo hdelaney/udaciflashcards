@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { receiveDecks } from '../actions/decks';
 import DeckInfo from './DeckInfo';
@@ -23,7 +23,12 @@ class DeckList extends Component {
 				{console.log('THESE ARE THE DEEEECKS:', decks)}
 				{decks.map((deck) => (
 					<View key={deck[0]}>
-						<DeckInfo deck={deck} />
+						<TouchableOpacity onPress={() => this.props.navigation.navigate(
+							'Deck',
+							{deck: deck}
+						)}>
+							<DeckInfo deck={deck} />
+						</TouchableOpacity>
 					</View>
 				))}
 				<Button onPress={() => console.log('Button pressed!')} title='Submit Get Data' />

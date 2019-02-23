@@ -7,6 +7,8 @@ import {
 		createAppContainer } from 'react-navigation';
 import AddDeck from './AddDeck';
 import DeckList from './DeckList';
+import Deck from './Deck';
+import Quiz from './Quiz';
 import { orange } from '../utils/colors';
 
 
@@ -46,6 +48,24 @@ const Tabs = createBottomTabNavigator({
 const MainNav = createStackNavigator({
 	Home: {
 		screen: Tabs
+	},
+	Deck: {
+		screen: Deck,
+		navigationOptions: {
+			headerTintColor: 'white',
+			headerStyle: {
+				backgroundColor: 'blue'
+			}
+		}
+	},
+	Quiz: {
+		screen: Quiz,
+		navigationOptions: {
+			headerTintColor: 'white',
+			headerStyle: {
+				backgroundColor: 'blue'
+			}
+		}
 	}
 })
 
