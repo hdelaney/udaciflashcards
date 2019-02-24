@@ -22,29 +22,23 @@ let decks = {
 //first key is the deckId, then array of questions for each deck
 let questions = {
 	"vb1kcvta0o6ne6ldkwmkm": [{
+		deckId: 'vb1kcvta0o6ne6ldkwmkm',
 		questionId: 'wwou6740a7bdma2ahd7h8',
 		text: "What ice cream flavor was created in Berkeley and named after the area's bumpy streets?",
 		answer: "Rocky Road"
 	}, {
+		deckId: 'vb1kcvta0o6ne6ldkwmkm',
 		questionId: '0bxwtw6f2vvvfjl856it1k6',
 		text: 'What holiday is celebrated around the new moon in January or February each year?',
 		answer: 'Chinese Lunar New Year'
 	}],
 	"4oq2vpoh1bb00iygvpol0ec6": [{
+		deckId: '4oq2vpoh1bb00iygvpol0ec6',
 		questionId: 'rgwsegrp9pbgompi2arp',
 		text: 'What is the state bird of California?',
 		answer: 'California Quail'
 	}]
 }
-
-export function initializeData () {
-		return new Promise((res, rej) => {
-			res(_getDecks())})
-				.then((decks) => {
-					return AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(decks))
-				})
-}
-
 
 
 
@@ -54,21 +48,31 @@ export function generateAnId () {
 }
 
 
-export function _getDecks () {
+function _getDecks () {
   return new Promise((res, rej) => {
-    setTimeout(() => res({...decks}), 1000)
+    setTimeout(() => res({...DECKS}), 1000)
   })
 }
 
-export function _getQuestions () {
+function _getQuestions () {
   return new Promise((res, rej) => {
-    setTimeout(() => res({...questions}), 1000)
+    setTimeout(() => res({...QUESTIONS}), 1000)
   })
+}
+
+function setStarterData() {
+	// const decks = _getDecks();
+	// const questions = _getQuestions();
+	const starter = {
+		decks,
+		questions
+	};
+	return starter;
 }
 
 export function formatFlashcardResults (results) {
-	return results == null || undefined
-	? initializeData()
-	: JSON.parse(results)
+	console.log('FORMAT RESULTS: ', results);
+	const data = (results === null || undefined) ? setStarterData() : JSON.parse(results);
+	console.log('DATA: ', data);
+	return data;
 }
-

@@ -4,39 +4,42 @@ import { View, Text, Button } from 'react-native';
 
 class Quiz extends Component {
 	state = {
-		numberQuestions: '',
-		currentQuestion: ''
+		currentQuestion: 0
 	}
 
-	componentDidMount () {
-		const { questions } = this.props;
-		( questions.length ) && this.setState({
-			numberQuestions: questions.length,
-			currentQuestion: 0
-		})
-	}
+	// componentDidMount () {
+	// 	const { questions, deckId } = this.props;
+	// 	( (questions[deckId]).length ) && this.setState({
+	// 		currentQuestion: 0
+	// 	})
+	// }
 
 	incrementCurrentQuestion = () => {
-		let newNumber = (this.state.currentQuestion === null) ? 1 : this.state.currentQuestion + 1;
-		this.setState(() => ({
-			currentQuestion: newNumber
+		this.setState((prevState) => ({
+			currentQuestion: (prevState.currentQuestion + 1)
 		}))
 	}
 
 	handleAnswerPress = () => {
-		const { numberQuestions, currentQuestion } = this.state;
-		( currentQuestion + 1 < numberQuestions ) && this.incrementCurrentQuestion
+		const { currentQuestion } = this.state;
+		const { numberQuestions } = this.props;
+		console.log(currentQuestion);
+		console.log(numberQuestions);
+		if ( currentQuestion < numberQuestions ) {
+			this.incrementCurrentQuestion()
+		}
+
 	}
 
 	render() {
-		const { numberQuestions, currentQuestion } = this.state;
-		const { questions, deckId } = this.props;
+		const { currentQuestion } = this.state;
+		const { questions, deckId, numberQuestions } = this.props;
 		return (
 			<View>
-				{ ( currentQuestion <= numberQuestions ) ? (
+				{ ( currentQuestion + 1 <= numberQuestions ) ? (
 						<View>
-							<Text>{questions[deckId][currentQuestion].text}</Text>
-							<Text>{questions[deckId][currentQuestion].answer}</Text>
+							<Text>{(questions[deckId])[currentQuestion].text}</Text>
+							<Text>{(questions[deckId])[currentQuestion].answer}</Text>
 							<Button onPress={this.handleAnswerPress} title='submit'>Submit</Button>
 						</View>
 					) : (
@@ -48,10 +51,12 @@ class Quiz extends Component {
 	}
 }
 
-//TODO: Create questions object in state (when data initializes)
-function mapStateToProps ({ questions }) {
+function mapStateToProps (state, { navigation }) {
+	const { deckId } = navigation.state.params
 	return {
-		questions
+		deckId,
+		numberQuestions: (state.questions[deckId]).length,
+		questions: state.questions
 	}
 }
 

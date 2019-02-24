@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Button } from 'react-native';
+import Quiz from './Quiz';
 
 class Deck extends Component {
 
 	//TODO: Properly hook up startQuiz to Quiz Card
 	startQuiz = () => {
 		const deck = this.props.navigation.getParam('deck');
-		console.log('heyoooo: ', deck);
+		this.props.navigation.navigate(
+			'Quiz',
+			{deckId: deck[1].deckId}
+		)
+		// console.log('heyoooo: ', deck);
 	}
 
 	render() {
@@ -24,7 +29,7 @@ class Deck extends Component {
 }
 
 
-function mapStateToProps ({ decks }) {
+function mapStateToProps (decks) {
 	return {
 		decks
 	}

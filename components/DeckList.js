@@ -2,16 +2,24 @@ import React, { Component } from 'react';
 import { View, Text, Button, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { receiveDecks } from '../actions/decks';
+import { receiveQuestions } from '../actions/questions';
 import DeckInfo from './DeckInfo';
 import { fetchFlashcardData } from '../utils/api';
+import { handleInitializeData } from '../actions/shared';
 
 
 class DeckList extends Component {
 
 	componentDidMount () {
 		const { dispatch } = this.props;
-    fetchFlashcardData()
-    	.then((decks) => dispatch(receiveDecks(decks)))
+    // fetchFlashcardData()
+    // 	.then((results) => {
+    // 		console.log('FETCH RESULTS: ', results);
+    // 		// dispatch(receiveDecks(results[0]));
+    // 		// dispatch(receiveQuestions(results[1]));
+
+    // 	})
+    dispatch(handleInitializeData());
   }
 
 
@@ -20,7 +28,6 @@ class DeckList extends Component {
 
 		return (
 			<View>
-				{console.log('THESE ARE THE DEEEECKS:', decks)}
 				{decks.map((deck) => (
 					<View key={deck[0]}>
 						<TouchableOpacity onPress={() => this.props.navigation.navigate(
@@ -37,9 +44,10 @@ class DeckList extends Component {
 	}
 }
 
-function mapStateToProps({ decks }) {
+function mapStateToProps({ decks, questions }) {
 	return {
-		decks: Object.entries(decks)
+		decks: Object.entries(decks),
+		questions: questions
 	}
 }
 
