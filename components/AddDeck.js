@@ -7,9 +7,10 @@ import {
 	ActivityIndicator,
 	Button } from 'react-native';
 import { Formik } from 'formik';
-import { submitDeck } from '../utils/api';
+import { submitDeck, submitNewQuestionDeck } from '../utils/api';
 import { generateAnId } from '../utils/_DATA';
 import { addDeck } from '../actions/decks';
+import { addNewQuestionDeck } from '../actions/questions';
 import { AsyncStorage } from 'react-native';
 
 // const addDeck = (deckName) => {
@@ -35,18 +36,23 @@ class AddDeck extends Component {
 		let deckDetails = this.formatDeck(values, key)
 		//update asyncStorage
 		submitDeck(deckDetails, key);
+		submitNewQuestionDeck(key);
 
 		//update Redux
-		this.props.dispatch(addDeck({
-			[key]: deckDetails
-		}));
+		this.props.dispatch(addDeck(deckDetails));
+		this.props.dispatch(addNewQuestionDeck(key));
 
 		//complete Formik
 		// actions.setSubmitting(false);
 	}
 
-	clearAsyncStorage = async() => {
-		AsyncStorage.clear();
+	clearAsyncStorage = () => {
+		const keys = ['UdaciFlashcards:decks', 'UdaciFlashcards:questions']
+		AsyncStorage.multiRemove(keys, (err) => {
+			console.log("There's been an error with multiRemove")
+		})
+		// AsyncStorage.clear();
+
 	}
 
 	render() {

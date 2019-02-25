@@ -1,7 +1,8 @@
 import {
 	RECEIVE_QUESTIONS,
 	ADD_QUESTION,
-	REMOVE_DECK_QUESTIONS
+	REMOVE_DECK_QUESTIONS,
+	ADD_NEW_QUESTION_DECK
 } from '../actions/questions';
 
 
@@ -18,6 +19,11 @@ export default function questions (state = {}, action) {
 				[action.question.deckId]: {
 					...state[action.question.deckId].concat(action.question)
 				}
+			}
+		case ADD_NEW_QUESTION_DECK :
+			return {
+				...state,
+				[action.deckIdObj]: []
 			}
 		case REMOVE_DECK_QUESTIONS :
 			let { [action.question.deckId]: info, ...newState } = state;

@@ -1,7 +1,8 @@
 import { AsyncStorage } from 'react-native';
 
 
-export const FLASHCARDS_STORAGE_KEY = 'UdaciFlashcards:flashcards';
+export const DECKS_STORAGE_KEY = 'UdaciFlashcards:decks';
+export const QUESTIONS_STORAGE_KEY = 'UdaciFlashcards:questions';
 
 
 let decks = {
@@ -50,17 +51,17 @@ export function generateAnId () {
 
 function _getDecks () {
   return new Promise((res, rej) => {
-    setTimeout(() => res({...DECKS}), 1000)
+    setTimeout(() => res({...decks}), 1000)
   })
 }
 
 function _getQuestions () {
   return new Promise((res, rej) => {
-    setTimeout(() => res({...QUESTIONS}), 1000)
+    setTimeout(() => res({...questions}), 1000)
   })
 }
 
-function setStarterData() {
+function setStarterData () {
 	// const decks = _getDecks();
 	// const questions = _getQuestions();
 	const starter = {
@@ -70,9 +71,22 @@ function setStarterData() {
 	return starter;
 }
 
+function formatMultiGet (results) {
+	console.log('MULTIGET RESULTS: ', results);
+	let deckData = results[0][1];
+	let questionsData = results[1][1];
+	let dataObj = {
+		decks: deckData,
+		questions: questionsData
+	}
+	return dataObj
+}
+
 export function formatFlashcardResults (results) {
 	console.log('FORMAT RESULTS: ', results);
-	const data = (results === null || undefined) ? setStarterData() : JSON.parse(results);
+	const data = (results[0][1] === null && results[1][1] === null)
+		? setStarterData()
+		: formatMultiGet(results);
 	console.log('DATA: ', data);
 	return data;
 }

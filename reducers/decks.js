@@ -16,7 +16,7 @@ export default function decks (state = {}, action) {
 		case ADD_DECK :
 			return {
 				...state,
-				...action.deck
+				[action.deck.deckId]: action.deck
 			}
 		case REMOVE_DECK :
 			let { [action.deck.deckId]: info, ...newState } = state;
