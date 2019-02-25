@@ -35,14 +35,14 @@ class AddDeck extends Component {
 		let key = generateAnId();
 		let deckDetails = this.formatDeck(values, key)
 		//update asyncStorage
-		submitDeck(deckDetails, key);
+		submitDeck(key, deckDetails);
 		submitNewQuestionDeck(key);
 
 		//update Redux
 		this.props.dispatch(addDeck(deckDetails));
 		this.props.dispatch(addNewQuestionDeck(key));
 
-		//complete Formik
+		//complete Formik???
 		// actions.setSubmitting(false);
 	}
 

@@ -8,10 +8,11 @@ export function fetchFlashcardData () {
 }
 
 
-export function submitDeck (deck, key) {
-	return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
-		[key]: deck
-	}))
+export function submitDeck (key, deck) {
+	const data = {};
+	data[key] = deck;
+	console.log('TRYING TO SUBMIT: ', data)
+	return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(data))
 }
 
 export function removeDeck (key) {

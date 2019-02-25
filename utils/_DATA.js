@@ -64,6 +64,12 @@ function _getQuestions () {
 function setStarterData () {
 	// const decks = _getDecks();
 	// const questions = _getQuestions();
+
+	AsyncStorage.multiSet([
+		[DECKS_STORAGE_KEY, JSON.stringify(decks)],
+		[QUESTIONS_STORAGE_KEY, JSON.stringify(questions)]
+	]);
+
 	const starter = {
 		decks,
 		questions
@@ -73,8 +79,10 @@ function setStarterData () {
 
 function formatMultiGet (results) {
 	console.log('MULTIGET RESULTS: ', results);
-	let deckData = results[0][1];
-	let questionsData = results[1][1];
+	// let parsedData = JSON.parse(results);
+	// console.log('MULTIGET PARSED???: ', parsedData);
+	let deckData = JSON.parse(results[0][1]);
+	let questionsData = JSON.parse(results[1][1]);
 	let dataObj = {
 		decks: deckData,
 		questions: questionsData
@@ -83,8 +91,8 @@ function formatMultiGet (results) {
 }
 
 export function formatFlashcardResults (results) {
-	console.log('FORMAT RESULTS: ', results);
-	const data = (results[0][1] === null && results[1][1] === null)
+	console.log('FORMAT RESULTS 0 1: ', results[0][1]);
+	const data = (results[0][1] === null)
 		? setStarterData()
 		: formatMultiGet(results);
 	console.log('DATA: ', data);

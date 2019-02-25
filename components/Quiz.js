@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Button } from 'react-native';
-// import { QuizCard } from './QuizCard';
 
 class Quiz extends Component {
 	state = {
@@ -34,9 +33,20 @@ class Quiz extends Component {
 		}
 	}
 
+	quizActiveCard (questions, deckId, currentQuestion) {
+		return(
+			<View>
+				<Text>{questions[deckId][currentQuestion].text}</Text>
+				<Text>{questions[deckId][currentQuestion].answer}</Text>
+				<Button onPress={this.handleAnswerPress} title='submit'>Submit</Button>
+			</View>
+		)
+	}
+
 
 	render() {
 		const { deckId, numberQuestions, questions } = this.props;
+		console.log('IN QUIZ: ', numberQuestions);
 		const { currentQuestion, quizOver } = this.state;
 
 		const noQuestionsDisplay = (
@@ -45,13 +55,7 @@ class Quiz extends Component {
 			</View>
 		);
 
-		const quizActiveCard = (
-			<View>
-				<Text>{questions[deckId][currentQuestion].text}</Text>
-				<Text>{questions[deckId][currentQuestion].answer}</Text>
-				<Button onPress={this.handleAnswerPress} title='submit'>Submit</Button>
-			</View>
-		)
+
 
 		const quizFinishedDisplay = (
 			<Text>You finished the quiz</Text>
@@ -59,8 +63,10 @@ class Quiz extends Component {
 
 		return (
 			<View>
-				{(numberQuestions === null) && noQuestionsDisplay}
-				{(numberQuestions !== null && quizOver === false) ? quizActiveCard : quizFinishedDisplay}
+				{numberQuestions === null && noQuestionsDisplay}
+				{(numberQuestions !== null && quizOver === false) && (this.quizActiveCard(questions, deckId, currentQuestion))}
+				{quizOver === true && quizFinishedDisplay}
+
 			</View>
 		)
 	}
@@ -76,6 +82,3 @@ function mapStateToProps (state, { navigation }) {
 }
 
 export default connect(mapStateToProps)(Quiz);
-
-
-
