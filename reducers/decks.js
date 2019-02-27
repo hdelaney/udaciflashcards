@@ -36,7 +36,7 @@ export default function decks (state = {}, action) {
 				...state,
 				[action.deck.deckId]: {
 					...state[action.deck.deckId],
-					correctAnswers: (state[action.deck.deckId].correctAnswers) - (state[action.deck.deckId].correctAnswers)
+					correctAnswers: 0
 				}
 			}
 		default :

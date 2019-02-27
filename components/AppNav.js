@@ -13,16 +13,16 @@ import { orange } from '../utils/colors';
 
 
 const Tabs = createBottomTabNavigator({
-	AddDeck: {
-		screen: AddDeck,
-		navigationOptions: {
-			tabBarLabel: 'Add Deck'
-		}
-	},
 	DeckList: {
 		screen: DeckList,
 		navigationOptions: {
 			tabBarLabel: 'Deck List'
+		}
+	},
+	AddDeck: {
+		screen: AddDeck,
+		navigationOptions: {
+			tabBarLabel: 'Add Deck'
 		}
 	}
 }, {
