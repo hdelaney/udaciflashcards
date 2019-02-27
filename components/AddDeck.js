@@ -31,7 +31,16 @@ class AddDeck extends Component {
 		}
 	}
 
-	addIt = (values, actions) => {
+	toNewDeck = (newDeck) => {
+		const { navigation } = this.props;
+		navigation.navigate(
+			'Deck',
+			{deck: newDeck}
+		)
+	}
+
+	addNewDeck = (values, actions) => {
+		const { dispatch, navigation } = this.props;
 		let key = generateAnId();
 		let deckDetails = this.formatDeck(values, key)
 		//update asyncStorage
@@ -39,8 +48,20 @@ class AddDeck extends Component {
 		submitNewQuestionDeck(key);
 
 		//update Redux
-		this.props.dispatch(addDeck(deckDetails));
-		this.props.dispatch(addNewQuestionDeck(key));
+
+		Promise.all([
+			dispatch(addDeck(deckDetails)),
+			dispatch(addNewQuestionDeck(key))
+		])
+		.then((values) => {
+			console.log('VALUES: ', values);
+			const deckValue = [];
+			const key = values[0].deck.deckId;
+			deckValue[0] = key;
+			deckValue[1] = values[0].deck;
+			this.toNewDeck(deckValue);
+		})
+
 
 		//complete Formik???
 		// actions.setSubmitting(false);
@@ -61,7 +82,7 @@ class AddDeck extends Component {
 				<Text>Add a Deck</Text>
 				<Formik
 					initialValues={{ deck: '' }}
-					onSubmit={values => this.addIt(values)}
+					onSubmit={values => this.addNewDeck(values)}
 				>
 					{props => (
 						<View>

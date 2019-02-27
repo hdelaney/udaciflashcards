@@ -44,20 +44,30 @@ class Quiz extends Component {
 		}))
 	}
 
-	toDeckList = () => {
+	toDeckView = () => {
 		const { deckId, deck, dispatch } = this.props;
 		submitResetCorrectAnswers(deckId);
 		dispatch(resetCorrectAnswers(deck));
 		this.props.navigation.dispatch(NavigationActions.navigate({
-			routeName: 'DeckList'
+			routeName: 'Deck'
 		}))
 	}
 
+	startQuizOver = () => {
+		const { deckId, deck, dispatch } = this.props;
+		submitResetCorrectAnswers(deckId);
+		dispatch(resetCorrectAnswers(deck));
+		this.setState({
+			quizOver: false,
+			currentQuestion: 0
+		})
+	}
+
 	//https://stackoverflow.com/questions/44423132/get-name-of-button-onpress-in-react-native
-	quizActiveCard (questions, deckId, currentQuestion) {
+	quizActiveCard (questions, deckId, currentQuestion, numberQuestions) {
 		return(
 			<View>
-				<Text>Question #{(currentQuestion+1).toString()}</Text>
+				<Text>Questions remaining after this one: {(numberQuestions-(currentQuestion+1)).toString()}</Text>
 				<Text>{questions[deckId][currentQuestion].text}</Text>
 				<Button onPress={this.toggleAnswer} title={(this.state.showAnswer) ? 'Hide Answer' : 'Show Answer'} />
 				{(this.state.showAnswer) && (<Text>{questions[deckId][currentQuestion].answer}</Text>)}
@@ -76,7 +86,8 @@ class Quiz extends Component {
 			<View>
 				<Text>You finished the quiz</Text>
 				<Text>You scored {score.toString()}% correct.</Text>
-				<Button onPress={this.toDeckList} title='Back to Deck List' />
+				<Button onPress={this.toDeckView} title='Back to Deck' />
+				<Button onPress={this.startQuizOver} title='Start Quiz Over' />
 			</View>
 		)
 	}
@@ -99,7 +110,7 @@ class Quiz extends Component {
 		return (
 			<View>
 				{numberQuestions === null && noQuestionsDisplay}
-				{(numberQuestions !== null && quizOver === false) && (this.quizActiveCard(questions, deckId, currentQuestion))}
+				{(numberQuestions !== null && quizOver === false) && (this.quizActiveCard(questions, deckId, currentQuestion, numberQuestions))}
 				{quizOver === true && this.quizFinishedDisplay(deck)}
 			</View>
 		)

@@ -16,9 +16,7 @@ export default function questions (state = {}, action) {
 		case ADD_QUESTION :
 			return {
 				...state,
-				[action.question.deckId]: {
-					...state[action.question.deckId].concat(action.question)
-				}
+				[action.question.deckId]: state[action.question.deckId].concat(action.question)
 			}
 		case ADD_NEW_QUESTION_DECK :
 			return {

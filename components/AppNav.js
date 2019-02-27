@@ -9,6 +9,7 @@ import AddDeck from './AddDeck';
 import DeckList from './DeckList';
 import Deck from './Deck';
 import Quiz from './Quiz';
+import AddQuestion from './AddQuestion';
 import { orange } from '../utils/colors';
 
 
@@ -60,6 +61,15 @@ const MainNav = createStackNavigator({
 	},
 	Quiz: {
 		screen: Quiz,
+		navigationOptions: {
+			headerTintColor: 'white',
+			headerStyle: {
+				backgroundColor: 'blue'
+			}
+		}
+	},
+	AddQuestion: {
+		screen: AddQuestion,
 		navigationOptions: {
 			headerTintColor: 'white',
 			headerStyle: {

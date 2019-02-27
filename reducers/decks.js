@@ -3,7 +3,8 @@ import {
 	ADD_DECK,
 	REMOVE_DECK,
 	INCREMENT_CORRECT_ANSWER,
-	RESET_CORRECT_ANSWERS } from '../actions/decks';
+	RESET_CORRECT_ANSWERS,
+	INCREMENT_NUMBER_QUESTIONS } from '../actions/decks';
 
 
 export default function decks (state = {}, action) {
@@ -37,6 +38,14 @@ export default function decks (state = {}, action) {
 				[action.deck.deckId]: {
 					...state[action.deck.deckId],
 					correctAnswers: 0
+				}
+			}
+		case INCREMENT_NUMBER_QUESTIONS :
+			return {
+				...state,
+				[action.question.deckId]: {
+					...state[action.question.deckId],
+					numQuestions: state[action.question.deckId].numQuestions + 1
 				}
 			}
 		default :

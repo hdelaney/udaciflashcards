@@ -3,6 +3,7 @@ export const ADD_DECK = 'ADD_DECK';
 export const REMOVE_DECK = 'REMOVE_DECK';
 export const INCREMENT_CORRECT_ANSWER = 'INCREMENT_CORRECT_ANSWER';
 export const RESET_CORRECT_ANSWERS = 'RESET_CORRECT_ANSWERS';
+export const INCREMENT_NUMBER_QUESTIONS = 'INCREMENT_NUMBER_QUESTIONS';
 
 
 export function receiveDecks (decks) {
@@ -37,5 +38,12 @@ export function resetCorrectAnswers (deck) {
 	return {
 		type: RESET_CORRECT_ANSWERS,
 		deck
+	}
+}
+
+export function incrementNumberQuestions (question) {
+	return {
+		type: INCREMENT_NUMBER_QUESTIONS,
+		question
 	}
 }

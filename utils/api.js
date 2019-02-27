@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { DECKS_STORAGE_KEY, QUESTIONS_STORAGE_KEY, formatFlashcardResults } from './_DATA';
+import { DECKS_STORAGE_KEY, QUESTIONS_STORAGE_KEY, formatFlashcardResults, formatMultiGet } from './_DATA';
 
 
 export function fetchFlashcardData () {
@@ -47,5 +47,13 @@ export function submitResetCorrectAnswers (key) {
 			const data = JSON.parse(result);
 			data[key].correctAnswers = 0;
 			AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data));
+		})
+}
+
+export function submitNewQuestion (key) {
+	return AsyncStorage.multiGet([DECKS_STORAGE_KEY, QUESTIONS_STORAGE_KEY])
+		.then((result) => {
+			const formattedData = formatMultiGet(result);
+			console.log('FORMATTED ADD QUESTION RESULTS: ', formattedData);
 		})
 }

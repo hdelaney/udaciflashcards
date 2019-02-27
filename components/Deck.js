@@ -5,9 +5,10 @@ import Quiz from './Quiz';
 
 class Deck extends Component {
 
-	//TODO: Properly hook up startQuiz to Quiz Card
+
 	startQuiz = () => {
-		const deck = this.props.navigation.getParam('deck');
+		const {navigation} = this.props;
+		const deck = navigation.getParam('deck');
 		this.props.navigation.navigate(
 			'Quiz',
 			{deckId: deck[1].deckId}
@@ -15,14 +16,26 @@ class Deck extends Component {
 		// console.log('heyoooo: ', deck);
 	}
 
+	toAddQuestion = () => {
+		const {navigation} = this.props;
+		const deck = navigation.getParam('deck');
+		navigation.navigate(
+			'AddQuestion',
+			{deckId: deck[1].deckId}
+		)
+	}
+
+
 	render() {
 		const { navigation } = this.props;
 		const deck = navigation.getParam('deck');
+		console.log(deck);
 		return (
 			<View>
 				<Text>{deck[1].name}</Text>
 				<Text>{deck[1].numQuestions} questions</Text>
-				<Button onPress={this.startQuiz} title='quiz'>Start Quiz</Button>
+				<Button onPress={this.startQuiz} title='Start Quiz' />
+				<Button onPress={this.toAddQuestion} title='Add a Question' />
 			</View>
 		)
 	}
