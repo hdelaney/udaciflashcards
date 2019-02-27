@@ -8,7 +8,8 @@ import { NavigationActions } from 'react-navigation';
 class Quiz extends Component {
 	state = {
 		currentQuestion: 0,
-		quizOver: false
+		quizOver: false,
+		showAnswer: false
 	}
 
 
@@ -27,12 +28,20 @@ class Quiz extends Component {
 	handleAnswerPress = (e, title) => {
 		const { currentQuestion } = this.state;
 		const { deck, numberQuestions, dispatch } = this.props;
-		dispatch(incrementCorrectAnswer(deck));
+
+		(title === 'correct') && dispatch(incrementCorrectAnswer(deck));
+
 		if ( currentQuestion + 1 < numberQuestions ) {
 			this.incrementCurrentQuestion()
 		} else {
 			this.finishQuiz()
 		}
+	}
+
+	toggleAnswer = () => {
+		this.setState((prevState) => ({
+			showAnswer: !prevState.showAnswer
+		}))
 	}
 
 	toDeckList = () => {
@@ -48,10 +57,26 @@ class Quiz extends Component {
 	quizActiveCard (questions, deckId, currentQuestion) {
 		return(
 			<View>
+				<Text>Question #{(currentQuestion+1).toString()}</Text>
 				<Text>{questions[deckId][currentQuestion].text}</Text>
-				<Text>{questions[deckId][currentQuestion].answer}</Text>
-				<Button onPress={(e) => this.handleAnswerPress(e, 'correct')} title='correct'>Correct</Button>
-				<Button onPress={(e) => this.handleAnswerPress(e, 'incorrect')} title='incorrect'>Incorrect</Button>
+				<Button onPress={this.toggleAnswer} title={(this.state.showAnswer) ? 'Hide Answer' : 'Show Answer'} />
+				{(this.state.showAnswer) && (<Text>{questions[deckId][currentQuestion].answer}</Text>)}
+				<Button onPress={(e) => this.handleAnswerPress(e, 'correct')} title='correct' />
+				<Button onPress={(e) => this.handleAnswerPress(e, 'incorrect')} title='incorrect' />
+			</View>
+		)
+	}
+
+	quizFinishedDisplay (deck) {
+		const {correctAnswers, numQuestions} = deck
+		console.log(correctAnswers);
+		let score = Math.floor(correctAnswers / numQuestions * 100);
+		console.log(score);
+		return (
+			<View>
+				<Text>You finished the quiz</Text>
+				<Text>You scored {score.toString()}% correct.</Text>
+				<Button onPress={this.toDeckList} title='Back to Deck List' />
 			</View>
 		)
 	}
@@ -60,7 +85,7 @@ class Quiz extends Component {
 
 
 	render() {
-		const { deckId, numberQuestions, questions } = this.props;
+		const { deckId, numberQuestions, questions, deck } = this.props;
 		console.log('IN QUIZ: ', numberQuestions);
 		const { currentQuestion, quizOver } = this.state;
 
@@ -71,20 +96,11 @@ class Quiz extends Component {
 		);
 
 
-
-		const quizFinishedDisplay = (
-			<View>
-				<Text>You finished the quiz</Text>
-				<Button onPress={this.toDeckList} title='Back to Deck List' />
-			</View>
-		)
-
 		return (
 			<View>
 				{numberQuestions === null && noQuestionsDisplay}
 				{(numberQuestions !== null && quizOver === false) && (this.quizActiveCard(questions, deckId, currentQuestion))}
-				{quizOver === true && quizFinishedDisplay}
-
+				{quizOver === true && this.quizFinishedDisplay(deck)}
 			</View>
 		)
 	}
