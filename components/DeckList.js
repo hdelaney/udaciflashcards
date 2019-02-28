@@ -12,13 +12,6 @@ class DeckList extends Component {
 
 	componentDidMount () {
 		const { dispatch } = this.props;
-    // fetchFlashcardData()
-    // 	.then((results) => {
-    // 		console.log('FETCH RESULTS: ', results);
-    // 		// dispatch(receiveDecks(results[0]));
-    // 		// dispatch(receiveQuestions(results[1]));
-
-    // 	})
     dispatch(handleInitializeData());
   }
 

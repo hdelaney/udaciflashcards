@@ -13,7 +13,6 @@ class Deck extends Component {
 			'Quiz',
 			{deckId: deck[1].deckId}
 		)
-		// console.log('heyoooo: ', deck);
 	}
 
 	toAddQuestion = () => {

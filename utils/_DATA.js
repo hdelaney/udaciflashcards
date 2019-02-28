@@ -49,21 +49,7 @@ export function generateAnId () {
 }
 
 
-function _getDecks () {
-  return new Promise((res, rej) => {
-    setTimeout(() => res({...decks}), 1000)
-  })
-}
-
-function _getQuestions () {
-  return new Promise((res, rej) => {
-    setTimeout(() => res({...questions}), 1000)
-  })
-}
-
 function setStarterData () {
-	// const decks = _getDecks();
-	// const questions = _getQuestions();
 
 	AsyncStorage.multiSet([
 		[DECKS_STORAGE_KEY, JSON.stringify(decks)],
@@ -77,7 +63,7 @@ function setStarterData () {
 	return starter;
 }
 
-function formatMultiGet (results) {
+export function formatMultiGet (results) {
 	console.log('MULTIGET RESULTS: ', results);
 	// let parsedData = JSON.parse(results);
 	// console.log('MULTIGET PARSED???: ', parsedData);

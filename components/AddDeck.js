@@ -13,12 +13,6 @@ import { addDeck } from '../actions/decks';
 import { addNewQuestionDeck } from '../actions/questions';
 import { AsyncStorage } from 'react-native';
 
-// const addDeck = (deckName) => {
-// 	//update asyncStorage
-
-// 	//update Redux
-
-// }
 
 class AddDeck extends Component {
 
@@ -43,12 +37,12 @@ class AddDeck extends Component {
 		const { dispatch, navigation } = this.props;
 		let key = generateAnId();
 		let deckDetails = this.formatDeck(values, key)
+
 		//update asyncStorage
 		submitDeck(key, deckDetails);
 		submitNewQuestionDeck(key);
 
 		//update Redux
-
 		Promise.all([
 			dispatch(addDeck(deckDetails)),
 			dispatch(addNewQuestionDeck(key))
@@ -62,9 +56,6 @@ class AddDeck extends Component {
 			this.toNewDeck(deckValue);
 		})
 
-
-		//complete Formik???
-		// actions.setSubmitting(false);
 	}
 
 	clearAsyncStorage = () => {
@@ -72,8 +63,6 @@ class AddDeck extends Component {
 		AsyncStorage.multiRemove(keys, (err) => {
 			console.log("There's been an error with multiRemove")
 		})
-		// AsyncStorage.clear();
-
 	}
 
 	render() {
@@ -103,9 +92,5 @@ class AddDeck extends Component {
 	}
 }
 
-
-// const AddDeck = ({props}) => (
-
-// )
 
 export default connect()(AddDeck);

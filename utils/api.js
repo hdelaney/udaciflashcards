@@ -50,10 +50,18 @@ export function submitResetCorrectAnswers (key) {
 		})
 }
 
-export function submitNewQuestion (key) {
+export function submitNewQuestion (key, question) {
 	return AsyncStorage.multiGet([DECKS_STORAGE_KEY, QUESTIONS_STORAGE_KEY])
 		.then((result) => {
 			const formattedData = formatMultiGet(result);
-			console.log('FORMATTED ADD QUESTION RESULTS: ', formattedData);
+			const {decks, questions} = formattedData;
+			decks[key].numQuestions += 1;
+			questions[key].push(question);
+			AsyncStorage.multiSet([[
+				DECKS_STORAGE_KEY, JSON.stringify(decks)
+				], [
+				QUESTIONS_STORAGE_KEY, JSON.stringify(questions)
+			]])
+			// console.log('FORMATTED ADD QUESTION RESULTS: ', formattedData);
 		})
 }
