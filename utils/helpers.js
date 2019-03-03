@@ -8,8 +8,6 @@ const LOCAL_NOTIFICATION_KEY = 'UdaciFlashcards:notifications';
 export function clearLocalNotifications () {
 	return AsyncStorage.removeItem(LOCAL_NOTIFICATION_KEY)
 		.then(Notifications.cancelAllScheduledNotificationsAsync)
-
-
 }
 
 
@@ -50,9 +48,7 @@ export function setLocalNotification () {
 									time: tomorrow,
 									repeat: 'day'
 								}
-
 							)
-
 							AsyncStorage.setItem(LOCAL_NOTIFICATION_KEY, JSON.stringify(true))
 						}
 					})

@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+	View,
+	Text,
+	Button,
+	TouchableOpacity,
+	StyleSheet,
+	Platform } from 'react-native';
 import { incrementCorrectAnswer, resetCorrectAnswers } from '../actions/decks';
 import { submitResetCorrectAnswers } from '../utils/api';
 import { NavigationActions } from 'react-navigation';
 import { clearLocalNotifications, setLocalNotification } from '../utils/helpers';
+
+
 
 
 class Quiz extends Component {
@@ -32,11 +40,13 @@ class Quiz extends Component {
 		this.handleLocalNotifcation();
 	}
 
+
 	handleAnswerPress = (e, title) => {
 		const { currentQuestion, showAnswer } = this.state;
-		const { deck, numberQuestions, dispatch } = this.props;
+		const { deck, numberQuestions, handleIncrementAnswer } = this.props;
 
-		(title === 'correct') && dispatch(incrementCorrectAnswer(deck));
+		//handleIncrementAnswer is a dispatch
+		(title === 'correct') && handleIncrementAnswer(deck);
 
 		if (currentQuestion + 1 < numberQuestions) {
 			this.incrementCurrentQuestion()
@@ -56,19 +66,26 @@ class Quiz extends Component {
 		}))
 	}
 
+	//resetAnswers is dispatch
 	toDeckView = () => {
-		const { deckId, deck, dispatch } = this.props;
+		const { deckId, deck, resetAnswers } = this.props;
+		//update AsyncStorage
 		submitResetCorrectAnswers(deckId);
-		dispatch(resetCorrectAnswers(deck));
+		//update Redux
+		resetAnswers(deck);
+		//re-route to Deck view
 		this.props.navigation.dispatch(NavigationActions.navigate({
 			routeName: 'Deck'
 		}))
 	}
 
 	startQuizOver = () => {
-		const { deckId, deck, dispatch } = this.props;
+		const { deckId, deck, resetAnswers } = this.props;
+		//update AsyncStorage
 		submitResetCorrectAnswers(deckId);
-		dispatch(resetCorrectAnswers(deck));
+		//update Redux
+		resetAnswers(deck);
+		//reset component state so quiz can start over
 		this.setState({
 			quizOver: false,
 			currentQuestion: 0
@@ -79,7 +96,7 @@ class Quiz extends Component {
 	quizActiveCard (questions, deckId, currentQuestion, numberQuestions) {
 		return(
 			<View>
-				<View style={styles.deckTextWrapper}>
+				<View style={styles.quizTextWrapper}>
 					<Text>Questions remaining (after this one): {(numberQuestions-(currentQuestion+1)).toString()}</Text>
 					<Text style={styles.quizQText}>{questions[deckId][currentQuestion].text}</Text>
 				</View>
@@ -119,22 +136,20 @@ class Quiz extends Component {
 	}
 
 
-
-
 	render() {
 		const { deckId, numberQuestions, questions, deck } = this.props;
 		console.log('IN QUIZ: ', numberQuestions);
 		const { currentQuestion, quizOver } = this.state;
 
 		const noQuestionsDisplay = (
-			<View>
-				<Text>This Deck does not yet have any Quiz questions. Please go back to select another deck</Text>
+			<View style={styles.questionText}>
+				<Text>This Deck does not yet have any Quiz questions. Please go back to select another deck.</Text>
 			</View>
 		);
 
 
 		return (
-			<View style={styles.deckWrapper}>
+			<View style={styles.quizWrapper}>
 				{numberQuestions === null && noQuestionsDisplay}
 				{(numberQuestions !== null && quizOver === false) && (this.quizActiveCard(questions, deckId, currentQuestion, numberQuestions))}
 				{quizOver === true && this.quizFinishedDisplay(deck)}
@@ -144,28 +159,28 @@ class Quiz extends Component {
 }
 
 const styles = StyleSheet.create({
-	deckWrapper: {
+	quizWrapper: {
 		flex: 1,
 		paddingHorizontal: 20,
 		justifyContent: 'space-around',
 		alignItems: 'center',
 		backgroundColor: '#efe9f4'
 	},
-	deckTextWrapper: {
+	quizTextWrapper: {
 		paddingVertical: 25,
 		paddingHorizontal: 25,
 		marginVertical: 25,
-		borderRadius: 4,
-		borderWidth: 0.5,
-		borderColor: '#5fbff9',
-		shadowColor: 'rgb(78, 157, 204)',
+		borderRadius: Platform.OS === 'ios' ? 4 : 0,
+		borderColor: '#5863f8',
+		borderWidth: Platform.OS === 'ios' ? 0.5 : 0,
+		shadowColor: 'rgb(88, 99, 248)',
 		shadowOffset: {
 			width: 5,
 			height: 5
 		},
 		shadowRadius: 5,
 		shadowOpacity: 1,
-		backgroundColor: 'white'
+		backgroundColor: '#fff'
 	},
 	deckName: {
 		fontSize: 20
@@ -180,13 +195,13 @@ const styles = StyleSheet.create({
 		marginVertical: 15,
 		paddingVertical: 10,
 		paddingHorizontal: 10,
-		borderRadius: 4,
+		borderRadius: Platform.OS === 'ios' ? 4 : 0,
 		borderWidth: 0.5,
-		borderColor: '#5fbff9',
-		backgroundColor: '#fcfbfd'
+		borderColor: '#5863f8',
+		backgroundColor: Platform.OS === 'ios' ? '#fcfbfd' : '#5863f8'
 	},
 	buttonText: {
-		color: '#5fbff9',
+		color: Platform.OS === 'ios' ? '#5863f8' : '#fff',
 		fontSize: 18,
 		textAlign: 'center'
 	},
@@ -195,7 +210,7 @@ const styles = StyleSheet.create({
 		fontSize: 18
 	},
 	answerButton: {
-		color: '#4e9dcc',
+		color: '#5863f8',
 		fontWeight: 'bold'
 	},
 	finished: {
@@ -220,4 +235,11 @@ function mapStateToProps (state, { navigation }) {
 	}
 }
 
-export default connect(mapStateToProps)(Quiz);
+function mapDispatchToProps(dispatch) {
+	return {
+		handleIncrementAnswer: (deck) => dispatch(incrementCorrectAnswer(deck)),
+		resetAnswers: (deck) => dispatch(resetCorrectAnswers(deck))
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz);

@@ -5,7 +5,8 @@ import {
 	Text,
 	Button,
 	TouchableOpacity,
-	StyleSheet } from 'react-native';
+	StyleSheet,
+	Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { receiveDecks } from '../actions/decks';
 import { receiveQuestions } from '../actions/questions';
@@ -17,8 +18,8 @@ import { handleInitializeData } from '../actions/shared';
 class DeckList extends Component {
 
 	componentDidMount () {
-		const { dispatch } = this.props;
-    dispatch(handleInitializeData());
+		const { handleInitData } = this.props;
+    handleInitData();
   }
 
   renderDeckItem = (renderItem) => {
@@ -64,11 +65,11 @@ const styles = StyleSheet.create({
   },
   deckHeader: {
   	fontSize: 20,
-  	paddingTop: 15,
-  	paddingRight: 15,
-  	paddingBottom: 15,
-  	paddingLeft: 15,
-  	fontWeight: 'bold'
+  	paddingVertical: 15,
+  	paddingHorizontal: 15,
+  	fontWeight: 'bold',
+  	backgroundColor: Platform.OS === 'android' ? '#5863f8' : '#fff',
+  	color: Platform.OS === 'android' ? '#fff' : '#000'
   },
   deckListItem: {
   	flex: 1,
@@ -78,10 +79,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		backgroundColor: 'white',
 		borderBottomWidth: 1,
-		borderBottomColor: '#5fbff9'
+		borderBottomColor: '#5863f8'
 	},
 });
-
 
 
 function mapStateToProps({ decks, questions }) {
@@ -91,7 +91,13 @@ function mapStateToProps({ decks, questions }) {
 	}
 }
 
+function mapDispatchToProps(dispatch) {
+	return {
+		handleInitData: () => dispatch(handleInitializeData())
+	}
+}
 
 
 
-export default connect(mapStateToProps)(DeckList);
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeckList);

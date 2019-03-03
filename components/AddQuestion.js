@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { Text, View, Button, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+	Text,
+	View,
+	Button,
+	TextInput,
+	TouchableOpacity,
+	StyleSheet,
+	Platform } from 'react-native';
 import { Formik } from 'formik';
 import { addQuestion } from '../actions/questions';
 import { incrementNumberQuestions } from '../actions/decks';
@@ -21,7 +28,6 @@ const questionSchema = Yup.object().shape({
 
 
 class AddQuestion extends Component {
-
 
 	backToDeck = (newDeck) => {
 		const { navigation } = this.props;
@@ -119,21 +125,20 @@ const styles = StyleSheet.create({
 	},
 	questionHeader: {
   	fontSize: 20,
-  	paddingTop: 15,
-  	paddingRight: 15,
-  	paddingBottom: 15,
-  	paddingLeft: 15,
+  	paddingVertical: 15,
+  	paddingHorizontal: 15,
   	fontWeight: 'bold'
   },
   formField: {
-  	paddingVertical: 5,
+  	paddingVertical: 10,
   	paddingHorizontal: 5,
   	marginVertical: 10,
   	marginHorizontal: 10,
-  	borderWidth: 0.5,
-  	borderColor: '#4e9dcc',
+  	borderColor: '#5863f8',
+  	borderWidth: Platform.OS === 'ios' ? 0.5 : 0,
   	borderRadius: 4,
   	backgroundColor: 'white',
+  	fontSize: 14,
   	textAlign: 'left'
   },
 	button: {
@@ -141,13 +146,13 @@ const styles = StyleSheet.create({
 		marginVertical: 15,
 		paddingVertical: 10,
 		paddingHorizontal: 10,
-		borderRadius: 4,
+		borderRadius: Platform.OS === 'ios' ? 4 : 0,
 		borderWidth: 0.5,
-		borderColor: '#5fbff9',
-		backgroundColor: '#fcfbfd'
+		borderColor: '#5863f8',
+		backgroundColor: Platform.OS === 'ios' ? '#fcfbfd' : '#5863f8'
 	},
 	buttonText: {
-		color: '#5fbff9',
+		color: Platform.OS === 'ios' ? '#5863f8' : '#fff',
 		fontSize: 18,
 		textAlign: 'center'
 	}

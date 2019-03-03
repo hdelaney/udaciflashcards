@@ -7,13 +7,22 @@ import {
 	ActivityIndicator,
 	Button,
 	TouchableOpacity,
-	StyleSheet } from 'react-native';
+	StyleSheet,
+	Platform } from 'react-native';
 import { Formik } from 'formik';
 import { submitDeck, submitNewQuestionDeck } from '../utils/api';
 import { generateAnId } from '../utils/_DATA';
 import { addDeck } from '../actions/decks';
 import { addNewQuestionDeck } from '../actions/questions';
 import { AsyncStorage } from 'react-native';
+import * as Yup from 'yup';
+
+
+const deckSchema = Yup.object().shape({
+	deck: Yup.string()
+	.label('Deck')
+	.required('A deck name is required')
+});
 
 
 class AddDeck extends Component {
@@ -36,7 +45,7 @@ class AddDeck extends Component {
 	}
 
 	addNewDeck = (values, actions) => {
-		const { dispatch, navigation } = this.props;
+		const { navigation, handleAddDeck, handleAddNewQuestionDeck } = this.props;
 		let key = generateAnId();
 		let deckDetails = this.formatDeck(values, key)
 
@@ -46,8 +55,8 @@ class AddDeck extends Component {
 
 		//update Redux
 		Promise.all([
-			dispatch(addDeck(deckDetails)),
-			dispatch(addNewQuestionDeck(key))
+			handleAddDeck(deckDetails),
+			handleAddNewQuestionDeck(key)
 		])
 		.then((values) => {
 			console.log('VALUES: ', values);
@@ -71,18 +80,20 @@ class AddDeck extends Component {
 				<Formik
 					initialValues={{ deck: '' }}
 					onSubmit={values => this.addNewDeck(values)}
+					validationSchema={deckSchema}
 				>
-					{props => (
+					{(formikProps) => (
 						<View>
 							<TextInput
 								placeholder='enter flashcard deck name'
-								onChangeText={props.handleChange('deck')}
-								onBlur={props.handleBlur('deck')}
-								value={props.values.deck}
-								selectionColor='#5fbff9'
+								onChangeText={formikProps.handleChange('deck')}
+								onBlur={formikProps.handleBlur('deck')}
+								value={formikProps.values.deck}
+								selectionColor='#5865f8'
 								style={styles.formField}
 							/>
-								<TouchableOpacity style={styles.button} onPress={props.handleSubmit}>
+								<Text style={styles.required}>{formikProps.errors.deck}</Text>
+								<TouchableOpacity style={styles.button} onPress={formikProps.handleSubmit}>
 									<Text style={styles.buttonText}>Submit</Text>
 								</TouchableOpacity>
 						</View>
@@ -99,26 +110,23 @@ class AddDeck extends Component {
 const styles = StyleSheet.create({
 	addDeckWrapper: {
 		flex: 1,
-		// alignItems: 'center',
 		backgroundColor: '#efe9f4'
 	},
 	deckHeader: {
   	fontSize: 20,
-  	paddingTop: 15,
-  	paddingRight: 15,
-  	paddingBottom: 15,
-  	paddingLeft: 15,
+  	paddingVertical: 15,
+  	paddingHorizontal: 15,
   	fontWeight: 'bold'
   },
   formField: {
-  	paddingVertical: 5,
+  	paddingVertical: 10,
   	paddingHorizontal: 5,
   	marginVertical: 10,
   	marginHorizontal: 10,
-  	borderWidth: 0.5,
-  	borderColor: '#4e9dcc',
+  	borderColor: '#5865f8',
+  	borderWidth: Platform.OS === 'ios' ? 0.5 : 0,
   	borderRadius: 4,
-  	backgroundColor: 'white',
+  	backgroundColor: '#fff',
   	textAlign: 'left'
   },
 	button: {
@@ -126,17 +134,30 @@ const styles = StyleSheet.create({
 		marginVertical: 15,
 		paddingVertical: 10,
 		paddingHorizontal: 10,
-		borderRadius: 4,
+		borderRadius: Platform.OS === 'ios' ? 4 : 0,
 		borderWidth: 0.5,
-		borderColor: '#5fbff9',
-		backgroundColor: '#fcfbfd'
+		borderColor: '#5865f8',
+		backgroundColor: Platform.OS === 'ios' ? '#fcfbfd' : '#5863f8'
 	},
 	buttonText: {
-		color: '#5fbff9',
+		color: Platform.OS === 'ios' ? '#5863f8' : '#fff',
 		fontSize: 18,
 		textAlign: 'center'
+	},
+	required: {
+		marginLeft: 10,
+		marginBottom: 15,
+		color: '#ff33cc',
+		fontStyle: 'italic'
 	}
 })
 
+function mapDispatchToProps(dispatch) {
+	return {
+		handleAddDeck: (deckDetails) => dispatch(addDeck(deckDetails)),
+		handleAddNewQuestionDeck: (key) => dispatch(addNewQuestionDeck(key))
+	}
+}
 
-export default connect()(AddDeck);
+export default connect(null, mapDispatchToProps)(AddDeck);
+

@@ -8,7 +8,6 @@ import AddDeck from './components/AddDeck';
 import NavContainer from './components/AppNav';
 import combineReducers from './reducers/index';
 import middleware from './middleware';
-import { orange } from './utils/colors';
 import { setLocalNotification } from './utils/helpers';
 
 const store = createStore(combineReducers, middleware);
@@ -32,7 +31,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          <CrossPlatStatusBar backgroundColor={'#4e9dcc'} barStyle='light-content' />
+          <CrossPlatStatusBar backgroundColor={'#5863f8'} barStyle='light-content' />
           <NavContainer />
         </View>
       </Provider>
