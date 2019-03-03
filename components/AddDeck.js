@@ -8,14 +8,15 @@ import {
 	Button,
 	TouchableOpacity,
 	StyleSheet,
-	Platform } from 'react-native';
+	Platform,
+	AsyncStorage } from 'react-native';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { submitDeck, submitNewQuestionDeck } from '../utils/api';
 import { generateAnId } from '../utils/_DATA';
 import { addDeck } from '../actions/decks';
 import { addNewQuestionDeck } from '../actions/questions';
-import { AsyncStorage } from 'react-native';
-import * as Yup from 'yup';
+import { purpleBlue, grey, offWhite, pink } from '../utils/colors';
 
 
 const deckSchema = Yup.object().shape({
@@ -30,7 +31,7 @@ class AddDeck extends Component {
 	formatDeck = (values, key) => {
 		return {
 			'deckId': key,
-			'name': values.deck,
+			'name': values.deck.trim(),
 			'numQuestions': 0,
 			'correctAnswers': 0
 		}
@@ -59,18 +60,10 @@ class AddDeck extends Component {
 			handleAddNewQuestionDeck(key)
 		])
 		.then((values) => {
-			console.log('VALUES: ', values);
 			const deckValue = values[0].deck;
 			this.toNewDeck(deckValue);
 		})
 
-	}
-
-	clearAsyncStorage = () => {
-		const keys = ['UdaciFlashcards:decks', 'UdaciFlashcards:questions']
-		AsyncStorage.multiRemove(keys, (err) => {
-			console.log("There's been an error with multiRemove")
-		})
 	}
 
 	render() {
@@ -99,9 +92,6 @@ class AddDeck extends Component {
 						</View>
 					)}
 				</Formik>
-				<Button onPress={this.clearAsyncStorage} title='clear'>
-					<Text>Clear Async Storage</Text>
-				</Button>
 			</View>
 		)
 	}
@@ -110,7 +100,7 @@ class AddDeck extends Component {
 const styles = StyleSheet.create({
 	addDeckWrapper: {
 		flex: 1,
-		backgroundColor: '#efe9f4'
+		backgroundColor: grey
 	},
 	deckHeader: {
   	fontSize: 20,
@@ -123,7 +113,7 @@ const styles = StyleSheet.create({
   	paddingHorizontal: 5,
   	marginVertical: 10,
   	marginHorizontal: 10,
-  	borderColor: '#5865f8',
+  	borderColor: purpleBlue,
   	borderWidth: Platform.OS === 'ios' ? 0.5 : 0,
   	borderRadius: 4,
   	backgroundColor: '#fff',
@@ -136,18 +126,18 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		borderRadius: Platform.OS === 'ios' ? 4 : 0,
 		borderWidth: 0.5,
-		borderColor: '#5865f8',
-		backgroundColor: Platform.OS === 'ios' ? '#fcfbfd' : '#5863f8'
+		borderColor: purpleBlue,
+		backgroundColor: Platform.OS === 'ios' ? offWhite : purpleBlue
 	},
 	buttonText: {
-		color: Platform.OS === 'ios' ? '#5863f8' : '#fff',
+		color: Platform.OS === 'ios' ? purpleBlue : '#fff',
 		fontSize: 18,
 		textAlign: 'center'
 	},
 	required: {
 		marginLeft: 10,
 		marginBottom: 15,
-		color: '#ff33cc',
+		color: pink,
 		fontStyle: 'italic'
 	}
 })

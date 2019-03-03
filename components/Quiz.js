@@ -11,6 +11,8 @@ import { incrementCorrectAnswer, resetCorrectAnswers } from '../actions/decks';
 import { submitResetCorrectAnswers } from '../utils/api';
 import { NavigationActions } from 'react-navigation';
 import { clearLocalNotifications, setLocalNotification } from '../utils/helpers';
+import { purpleBlue, offWhite, grey } from '../utils/colors';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 
@@ -66,7 +68,7 @@ class Quiz extends Component {
 		}))
 	}
 
-	//resetAnswers is dispatch
+
 	toDeckView = () => {
 		const { deckId, deck, resetAnswers } = this.props;
 		//update AsyncStorage
@@ -118,9 +120,8 @@ class Quiz extends Component {
 
 	quizFinishedDisplay (deck) {
 		const {correctAnswers, numQuestions} = deck
-		console.log(correctAnswers);
 		let score = Math.floor(correctAnswers / numQuestions * 100);
-		console.log(score);
+
 		return (
 			<View>
 				<Text style={styles.finished}>You finished the quiz</Text>
@@ -138,12 +139,12 @@ class Quiz extends Component {
 
 	render() {
 		const { deckId, numberQuestions, questions, deck } = this.props;
-		console.log('IN QUIZ: ', numberQuestions);
 		const { currentQuestion, quizOver } = this.state;
 
 		const noQuestionsDisplay = (
-			<View style={styles.questionText}>
-				<Text>This Deck does not yet have any Quiz questions. Please go back to select another deck.</Text>
+			<View style={styles.noQuiz}>
+				<FontAwesome name='question-circle' size={60} color={purpleBlue} />
+				<Text style={styles.noQuizText}>This Deck does not have any Quiz questions.</Text>
 			</View>
 		);
 
@@ -164,14 +165,14 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		backgroundColor: '#efe9f4'
+		backgroundColor: grey
 	},
 	quizTextWrapper: {
 		paddingVertical: 25,
 		paddingHorizontal: 25,
 		marginVertical: 25,
 		borderRadius: Platform.OS === 'ios' ? 4 : 0,
-		borderColor: '#5863f8',
+		borderColor: purpleBlue,
 		borderWidth: Platform.OS === 'ios' ? 0.5 : 0,
 		shadowColor: 'rgb(88, 99, 248)',
 		shadowOffset: {
@@ -197,11 +198,11 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		borderRadius: Platform.OS === 'ios' ? 4 : 0,
 		borderWidth: 0.5,
-		borderColor: '#5863f8',
-		backgroundColor: Platform.OS === 'ios' ? '#fcfbfd' : '#5863f8'
+		borderColor: purpleBlue,
+		backgroundColor: Platform.OS === 'ios' ? offWhite : purpleBlue
 	},
 	buttonText: {
-		color: Platform.OS === 'ios' ? '#5863f8' : '#fff',
+		color: Platform.OS === 'ios' ? purpleBlue : '#fff',
 		fontSize: 18,
 		textAlign: 'center'
 	},
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
 		fontSize: 18
 	},
 	answerButton: {
-		color: '#5863f8',
+		color: purpleBlue,
 		fontWeight: 'bold'
 	},
 	finished: {
@@ -222,6 +223,15 @@ const styles = StyleSheet.create({
 		paddingVertical: 5,
 		fontSize: 14,
 		textAlign: 'center'
+	},
+	noQuiz: {
+		flex: 1,
+		alignItems:'center',
+		justifyContent: 'center'
+	},
+	noQuizText: {
+		marginTop: 15,
+		fontSize: 16
 	}
 })
 

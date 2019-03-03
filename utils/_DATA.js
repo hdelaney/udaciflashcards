@@ -1,6 +1,5 @@
 import { AsyncStorage } from 'react-native';
 
-
 export const DECKS_STORAGE_KEY = 'UdaciFlashcards:decks';
 export const QUESTIONS_STORAGE_KEY = 'UdaciFlashcards:questions';
 
@@ -8,36 +7,35 @@ export const QUESTIONS_STORAGE_KEY = 'UdaciFlashcards:questions';
 let decks = {
 	"vb1kcvta0o6ne6ldkwmkm": {
 		deckId: 'vb1kcvta0o6ne6ldkwmkm',
-		name: 'Bar Night Trivia',
+		name: 'State of California Emblems',
 		numQuestions: 2,
 		correctAnswers: 0
 	},
 	"4oq2vpoh1bb00iygvpol0ec6": {
 		deckId: '4oq2vpoh1bb00iygvpol0ec6',
-		name: 'Random Animal Facts',
+		name: 'Weather',
 		numQuestions: 1,
 		correctAnswers: 0
 	}
 }
 
-//first key is the deckId, then array of questions for each deck
 let questions = {
 	"vb1kcvta0o6ne6ldkwmkm": [{
 		deckId: 'vb1kcvta0o6ne6ldkwmkm',
 		questionId: 'wwou6740a7bdma2ahd7h8',
-		text: "What ice cream flavor was created in Berkeley and named after the area's bumpy streets?",
-		answer: "Rocky Road"
+		text: "What is the official CA state sport?",
+		answer: "surfing"
 	}, {
 		deckId: 'vb1kcvta0o6ne6ldkwmkm',
 		questionId: '0bxwtw6f2vvvfjl856it1k6',
-		text: 'What holiday is celebrated around the new moon in January or February each year?',
-		answer: 'Chinese Lunar New Year'
+		text: 'What is the the offical CA state mineral and state rock?',
+		answer: 'native gold and serpentinite'
 	}],
 	"4oq2vpoh1bb00iygvpol0ec6": [{
 		deckId: '4oq2vpoh1bb00iygvpol0ec6',
 		questionId: 'rgwsegrp9pbgompi2arp',
-		text: 'What is the state bird of California?',
-		answer: 'California Quail'
+		text: 'A mix of snow and rain precipitation is typically called what?',
+		answer: 'sleet'
 	}]
 }
 
@@ -64,9 +62,6 @@ function setStarterData () {
 }
 
 export function formatMultiGet (results) {
-	console.log('MULTIGET RESULTS: ', results);
-	// let parsedData = JSON.parse(results);
-	// console.log('MULTIGET PARSED???: ', parsedData);
 	let deckData = JSON.parse(results[0][1]);
 	let questionsData = JSON.parse(results[1][1]);
 	let dataObj = {
@@ -77,10 +72,8 @@ export function formatMultiGet (results) {
 }
 
 export function formatFlashcardResults (results) {
-	console.log('FORMAT RESULTS 0 1: ', results[0][1]);
 	const data = (results[0][1] === null)
 		? setStarterData()
 		: formatMultiGet(results);
-	console.log('DATA: ', data);
 	return data;
 }

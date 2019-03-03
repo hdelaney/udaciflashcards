@@ -4,8 +4,11 @@ import {
 		createBottomTabNavigator,
 		createStackNavigator,
 		createAppContainer } from 'react-navigation';
-import { Ionicons } from '@expo/vector-icons';
-
+import {
+	SimpleLineIcons,
+	MaterialCommunityIcons,
+	MaterialIcons,
+	Ionicons } from '@expo/vector-icons';
 import AddDeck from './AddDeck';
 import DeckList from './DeckList';
 import Deck from './Deck';
@@ -19,14 +22,22 @@ const Tabs = createBottomTabNavigator({
 		screen: DeckList,
 		navigationOptions: {
 			tabBarLabel: 'Deck List',
-			tabBarIcon: ({ tintColor }) => <Ionicons name='ios-list-box' size={25} color={tintColor} />
+			tabBarIcon: ({ tintColor }) => (Platform.OS === 'ios') ? (
+				<SimpleLineIcons name='list' size={25} color={tintColor} />
+			) : (
+				<MaterialCommunityIcons name='view-list' size={25} color={tintColor} />
+			)
 		}
 	},
 	AddDeck: {
 		screen: AddDeck,
 		navigationOptions: {
 			tabBarLabel: 'Add Deck',
-			tabBarIcon: ({ tintColor }) => <Ionicons name='ios-create' size={25} color={tintColor} />
+			tabBarIcon: ({ tintColor }) => (Platform.OS === 'ios') ? (
+				<Ionicons name='ios-add-circle-outline' size={25} color={tintColor} />
+			) : (
+				<MaterialIcons name='add-circle' size={25} color={tintColor} />
+			)
 		}
 	}
 }, {

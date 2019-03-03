@@ -13,6 +13,7 @@ import { receiveQuestions } from '../actions/questions';
 import DeckInfo from './DeckInfo';
 import { fetchFlashcardData } from '../utils/api';
 import { handleInitializeData } from '../actions/shared';
+import { purpleBlue, grey } from '../utils/colors';
 
 
 class DeckList extends Component {
@@ -23,7 +24,6 @@ class DeckList extends Component {
   }
 
   renderDeckItem = (renderItem) => {
-  	console.log('LIST RENDER: ', renderItem);
   	const { item } = renderItem;
   	return (
   		<View key={item.deckId} style={styles.deckListItem}>
@@ -39,12 +39,10 @@ class DeckList extends Component {
 
 	render() {
 		const { decks } = this.props;
-		console.log('DEEECKS TEST LIST DATA: ', decks);
 		const length = decks.length;
 
-
 		return (
-			<View style={styles.deckList}>
+			<View style={styles.deckListWrapper}>
 				<Text style={styles.deckHeader}>Flashcard Deck List</Text>
 				<FlatList
 					data={decks}
@@ -57,18 +55,18 @@ class DeckList extends Component {
 }
 
 const styles = StyleSheet.create({
-  deckList: {
+  deckListWrapper: {
     flex: 1,
     height: 100,
     alignContent: 'center',
-    backgroundColor: '#efe9f4'
+    backgroundColor: grey
   },
   deckHeader: {
   	fontSize: 20,
   	paddingVertical: 15,
   	paddingHorizontal: 15,
   	fontWeight: 'bold',
-  	backgroundColor: Platform.OS === 'android' ? '#5863f8' : '#fff',
+  	backgroundColor: Platform.OS === 'android' ? purpleBlue : '#fff',
   	color: Platform.OS === 'android' ? '#fff' : '#000'
   },
   deckListItem: {
@@ -79,7 +77,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		backgroundColor: 'white',
 		borderBottomWidth: 1,
-		borderBottomColor: '#5863f8'
+		borderBottomColor: purpleBlue
 	},
 });
 

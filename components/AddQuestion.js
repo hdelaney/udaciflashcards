@@ -10,11 +10,13 @@ import {
 	StyleSheet,
 	Platform } from 'react-native';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { addQuestion } from '../actions/questions';
 import { incrementNumberQuestions } from '../actions/decks';
 import { submitNewQuestion } from '../utils/api';
 import { generateAnId } from '../utils/_DATA';
-import * as Yup from 'yup';
+import { purpleBlue, grey, offWhite, pink } from '../utils/colors';
+
 
 
 const questionSchema = Yup.object().shape({
@@ -41,13 +43,12 @@ class AddQuestion extends Component {
 		const { add, increment, goBack, navigation, decks } = this.props;
 		const deckId = navigation.getParam('deckId');
 		const id = generateAnId();
-		console.log('ID: ', id);
 
 		const question = {
 			deckId: deckId,
 			questionId: id,
-			text: values.question,
-			answer: values.answer
+			text: values.question.trim(),
+			answer: values.answer.trim()
 		}
 
 		//update AsyncStorage
@@ -111,8 +112,7 @@ class AddQuestion extends Component {
 const styles = StyleSheet.create({
 	addQuestionWrapper: {
 		flex: 1,
-		// alignItems: 'center',
-		backgroundColor: '#efe9f4'
+		backgroundColor: grey
 	},
 	marginNudge: {
 		marginLeft: 10
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
 	required: {
 		marginLeft: 10,
 		marginBottom: 15,
-		color: '#ff33cc',
+		color: pink,
 		fontStyle: 'italic'
 	},
 	questionHeader: {
@@ -134,10 +134,10 @@ const styles = StyleSheet.create({
   	paddingHorizontal: 5,
   	marginVertical: 10,
   	marginHorizontal: 10,
-  	borderColor: '#5863f8',
+  	borderColor: purpleBlue,
   	borderWidth: Platform.OS === 'ios' ? 0.5 : 0,
   	borderRadius: 4,
-  	backgroundColor: 'white',
+  	backgroundColor: '#fff',
   	fontSize: 14,
   	textAlign: 'left'
   },
@@ -148,11 +148,11 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		borderRadius: Platform.OS === 'ios' ? 4 : 0,
 		borderWidth: 0.5,
-		borderColor: '#5863f8',
-		backgroundColor: Platform.OS === 'ios' ? '#fcfbfd' : '#5863f8'
+		borderColor: purpleBlue,
+		backgroundColor: Platform.OS === 'ios' ? offWhite : purpleBlue
 	},
 	buttonText: {
-		color: Platform.OS === 'ios' ? '#5863f8' : '#fff',
+		color: Platform.OS === 'ios' ? purpleBlue : '#fff',
 		fontSize: 18,
 		textAlign: 'center'
 	}

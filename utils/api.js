@@ -11,7 +11,6 @@ export function fetchFlashcardData () {
 export function submitDeck (key, deck) {
 	const data = {};
 	data[key] = deck;
-	console.log('TRYING TO SUBMIT: ', data);
 	return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(data));
 }
 
@@ -62,6 +61,5 @@ export function submitNewQuestion (key, question) {
 				], [
 				QUESTIONS_STORAGE_KEY, JSON.stringify(questions)
 			]])
-			// console.log('FORMATTED ADD QUESTION RESULTS: ', formattedData);
 		})
 }
