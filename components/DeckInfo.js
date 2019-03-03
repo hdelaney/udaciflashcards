@@ -1,11 +1,21 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function DeckInfo({ deck }) {
+	console.log('DECK INFO: ', deck);
 	return (
-		<View key={deck[0].deckId}>
-			<Text>{deck[1].name}</Text>
-			<Text>{deck[1].numQuestions}</Text>
+		<View key={deck.deckId}>
+			<Text style={styles.deckNameText}>{deck.name}</Text>
+			<Text style={styles.deckListText}>{deck.numQuestions} question card(s)</Text>
 		</View>
 		)
 }
+
+const styles = StyleSheet.create({
+	deckNameText: {
+		fontSize: 16
+	},
+	deckQuestionsText: {
+		fontSize: 12
+	}
+})

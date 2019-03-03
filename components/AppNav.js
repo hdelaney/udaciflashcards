@@ -17,7 +17,7 @@ const Tabs = createBottomTabNavigator({
 	DeckList: {
 		screen: DeckList,
 		navigationOptions: {
-			tabBarLabel: 'Deck List'
+			tabBarLabel: 'Deck List',
 		}
 	},
 	AddDeck: {
@@ -31,10 +31,10 @@ const Tabs = createBottomTabNavigator({
 			header: null
 		},
 		tabBarOptions: {
-			activeTintColor: orange,
+			activeTintColor: 'white',
 			style: {
 				height: 56,
-				backgroundColor: 'blue',
+				backgroundColor: '#4e9dcc',
 				shadowColor: 'rgba(0, 0, 0, 0.24)',
 				shadowOffset: {
 					width: 0,
@@ -53,27 +53,30 @@ const MainNav = createStackNavigator({
 	Deck: {
 		screen: Deck,
 		navigationOptions: {
+			headerTitle: 'Flashcard Deck',
 			headerTintColor: 'white',
 			headerStyle: {
-				backgroundColor: 'blue'
+				backgroundColor: '#4e9dcc'
 			}
 		}
 	},
 	Quiz: {
 		screen: Quiz,
 		navigationOptions: {
+			headerTitle: 'Quiz',
 			headerTintColor: 'white',
 			headerStyle: {
-				backgroundColor: 'blue'
+				backgroundColor: '#4e9dcc'
 			}
 		}
 	},
 	AddQuestion: {
 		screen: AddQuestion,
 		navigationOptions: {
+			headerTitle: 'Add a Question',
 			headerTintColor: 'white',
 			headerStyle: {
-				backgroundColor: 'blue'
+				backgroundColor: '#4e9dcc'
 			}
 		}
 	}

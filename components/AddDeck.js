@@ -5,7 +5,9 @@ import {
 	View,
 	TextInput,
 	ActivityIndicator,
-	Button } from 'react-native';
+	Button,
+	TouchableOpacity,
+	StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import { submitDeck, submitNewQuestionDeck } from '../utils/api';
 import { generateAnId } from '../utils/_DATA';
@@ -49,10 +51,7 @@ class AddDeck extends Component {
 		])
 		.then((values) => {
 			console.log('VALUES: ', values);
-			const deckValue = [];
-			const key = values[0].deck.deckId;
-			deckValue[0] = key;
-			deckValue[1] = values[0].deck;
+			const deckValue = values[0].deck;
 			this.toNewDeck(deckValue);
 		})
 
@@ -67,8 +66,8 @@ class AddDeck extends Component {
 
 	render() {
 		return (
-			<View>
-				<Text>Add a Deck</Text>
+			<View style={styles.addDeckWrapper}>
+				<Text style={styles.deckHeader}>Add a Deck</Text>
 				<Formik
 					initialValues={{ deck: '' }}
 					onSubmit={values => this.addNewDeck(values)}
@@ -76,11 +75,16 @@ class AddDeck extends Component {
 					{props => (
 						<View>
 							<TextInput
+								placeholder='enter flashcard deck name'
 								onChangeText={props.handleChange('deck')}
 								onBlur={props.handleBlur('deck')}
 								value={props.values.deck}
+								selectionColor='#5fbff9'
+								style={styles.formField}
 							/>
-							<Button onPress={props.handleSubmit} title='Submit' />
+								<TouchableOpacity style={styles.button} onPress={props.handleSubmit}>
+									<Text style={styles.buttonText}>Submit</Text>
+								</TouchableOpacity>
 						</View>
 					)}
 				</Formik>
@@ -91,6 +95,48 @@ class AddDeck extends Component {
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+	addDeckWrapper: {
+		flex: 1,
+		// alignItems: 'center',
+		backgroundColor: '#efe9f4'
+	},
+	deckHeader: {
+  	fontSize: 20,
+  	paddingTop: 15,
+  	paddingRight: 15,
+  	paddingBottom: 15,
+  	paddingLeft: 15,
+  	fontWeight: 'bold'
+  },
+  formField: {
+  	paddingVertical: 5,
+  	paddingHorizontal: 5,
+  	marginVertical: 10,
+  	marginHorizontal: 10,
+  	borderWidth: 0.5,
+  	borderColor: '#4e9dcc',
+  	borderRadius: 4,
+  	backgroundColor: 'white',
+  	textAlign: 'left'
+  },
+	button: {
+		alignSelf: 'center',
+		marginVertical: 15,
+		paddingVertical: 10,
+		paddingHorizontal: 10,
+		borderRadius: 4,
+		borderWidth: 0.5,
+		borderColor: '#5fbff9',
+		backgroundColor: '#fcfbfd'
+	},
+	buttonText: {
+		color: '#5fbff9',
+		fontSize: 18,
+		textAlign: 'center'
+	}
+})
 
 
 export default connect()(AddDeck);

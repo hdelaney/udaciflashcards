@@ -9,6 +9,7 @@ import NavContainer from './components/AppNav';
 import combineReducers from './reducers/index';
 import middleware from './middleware';
 import { orange } from './utils/colors';
+import { setLocalNotification } from './utils/helpers';
 
 const store = createStore(combineReducers, middleware);
 
@@ -23,11 +24,15 @@ function CrossPlatStatusBar ({ backgroundColor, ...props }) {
 
 export default class App extends Component {
 
+  componentDidMount () {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={store}>
-        <View style={{flex: 1}}>
-          <CrossPlatStatusBar backgroundColor={orange} barStyle='light-content' />
+        <View style={styles.container}>
+          <CrossPlatStatusBar backgroundColor={'#4e9dcc'} barStyle='light-content' />
           <NavContainer />
         </View>
       </Provider>
@@ -38,10 +43,10 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    height: 100,
+    flexDirection: 'column',
+    backgroundColor: '#efe9f4'
+  }
 });
 
 
