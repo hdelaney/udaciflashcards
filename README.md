@@ -2,7 +2,7 @@
 
 This is the final project for Udacity's React Native course and React ND program.
 
-A simple flashcard mobile application, UdaciFlashcards works on iOS and Android. It has limited testing via Expo CLI v32.0.0 on Apple iPhone 5S with Expo and on Google Nexus 5X with Genymotion & Expo.
+A simple flashcard mobile application, UdaciFlashcards works on iOS and Android.
 
 The application has a small set of dummy data with which to start. In the app one can add a new flashcard deck and also add new flashcard quiz questions. The app uses `react-native` AsyncStorage to store and use data locally.
 
@@ -14,9 +14,9 @@ The application has a small set of dummy data with which to start. In the app on
 
 * Expo CLI is required to run this application.
 
-* Expo's Mobile Client on your mobile device, if you're viewing the application from your mobile device. 
+* Expo's Mobile Client on your mobile device, if you're viewing the application from your mobile device.
 
-* See intstructions for Expo here: https://docs.expo.io/versions/latest/introduction/installation/ 
+* See intstructions for Expo here: https://docs.expo.io/versions/latest/introduction/installation/
 
 P.S. If you're a macOS user you may need to install Watchman - scroll to the bottom of the page linked above to read more.
 
@@ -34,7 +34,7 @@ For viewing on Android, setting up an Android simulator is a pain, but you can d
 
 <h4>Let's do this</h4>
 
-In terminal, from the main directory, run `npm start` or  `expo start`.
+In terminal, from the main directory, run `npm install` to install all project dependencies. Once that's finished run `npm start` or `expo start`.
 
 This will launch Expo DevTools. Once it's done doing its thing, you'll see a big QR code followed by some bullet points in the terminal. Expo may also launch a Metro Bundler window in your web browser. When the tunnel is ready you can either open Expo's Mobile Client app on your mobile device, or open your simulator.
 
@@ -48,7 +48,7 @@ If you're viewing on a simulator, wait for your simlutator to launch, then in th
 
 This application was built with Expo v32.0.0 .
 
-This app uses Expo's Notifications to access local notifications and set an automatically repeated daily local notifcation reminder to remind the user to take at least one quiz. This feature will be deprecated in the next Expo SDK release. So, there is a yellow, non-failing error thrown as a result of this. 
+This app uses Expo's Notifications to access local notifications and set an automatically repeated daily local notifcation reminder to remind the user to take at least one quiz. This feature will be deprecated in the next Expo SDK release. So, there is a yellow, non-failing error thrown as a result of this.
 
 This application uses React Navigation v3.
 
