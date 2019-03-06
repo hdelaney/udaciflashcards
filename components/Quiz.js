@@ -56,16 +56,13 @@ class Quiz extends Component {
 		//handleIncrementAnswer is a dispatch
 		(title === 'correct') && handleIncrementAnswer(deck);
 
-		if (currentQuestion + 1 < numberQuestions) {
-			this.incrementCurrentQuestion()
-		} else {
-			this.finishQuiz()
-		}
-		if (showAnswer === true) {
-			this.setState({
-				showAnswer: false
-			})
-		}
+		(currentQuestion + 1 < numberQuestions) ?
+		this.incrementCurrentQuestion()
+		: this.finishQuiz();
+
+		(showAnswer) && this.setState({
+			showAnswer: false
+		})
 	}
 
 	toggleAnswer = () => {
