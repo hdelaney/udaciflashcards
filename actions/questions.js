@@ -1,7 +1,9 @@
-export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
-export const ADD_QUESTION = 'ADD_QUESTION';
-export const ADD_NEW_QUESTION_DECK = 'ADD_NEW_QUESTION_DECK';
-export const REMOVE_DECK_QUESTIONS = 'REMOVE_DECK_QUESTIONS';
+import {
+	RECEIVE_QUESTIONS,
+	ADD_QUESTION,
+	ADD_NEW_QUESTION_DECK,
+	REMOVE_DECK_QUESTIONS
+} from './actionTypes';
 
 
 export function receiveQuestions (questions) {

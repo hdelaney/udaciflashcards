@@ -4,7 +4,7 @@ import {
 	REMOVE_DECK,
 	INCREMENT_CORRECT_ANSWER,
 	RESET_CORRECT_ANSWERS,
-	INCREMENT_NUMBER_QUESTIONS } from '../actions/decks';
+	INCREMENT_NUMBER_QUESTIONS } from '../actions/actionTypes';
 
 
 export default function decks (state = {}, action) {

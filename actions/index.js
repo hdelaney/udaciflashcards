@@ -1,4 +1,4 @@
-export const INITIALIZE_DATA = 'INITIALIZE_DATA';
+import { INITIALIZE_DATA } from './actionTypes';
 
 export function initializeData (data) {
 	return {
