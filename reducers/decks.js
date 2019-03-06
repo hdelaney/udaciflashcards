@@ -9,22 +9,25 @@ import {
 
 export default function decks (state = {}, action) {
 	switch(action.type) {
-		case RECEIVE_DECKS :
+		case RECEIVE_DECKS : {
 			return {
 				...state,
 				...action.decks
 			}
-		case ADD_DECK :
+		}
+		case ADD_DECK : {
 			return {
 				...state,
 				[action.deck.deckId]: action.deck
 			}
-		case REMOVE_DECK :
+		}
+		case REMOVE_DECK : {
 			let { [action.deck.deckId]: info, ...newState } = state;
 			return {
 				...newState,
 			}
-		case INCREMENT_CORRECT_ANSWER :
+		}
+		case INCREMENT_CORRECT_ANSWER : {
 			return {
 				...state,
 				[action.deck.deckId]: {
@@ -32,7 +35,8 @@ export default function decks (state = {}, action) {
 					correctAnswers: state[action.deck.deckId].correctAnswers + 1
 				}
 			}
-		case RESET_CORRECT_ANSWERS :
+		}
+		case RESET_CORRECT_ANSWERS : {
 			return {
 				...state,
 				[action.deck.deckId]: {
@@ -40,7 +44,8 @@ export default function decks (state = {}, action) {
 					correctAnswers: 0
 				}
 			}
-		case INCREMENT_NUMBER_QUESTIONS :
+		}
+		case INCREMENT_NUMBER_QUESTIONS : {
 			return {
 				...state,
 				[action.question.deckId]: {
@@ -48,7 +53,9 @@ export default function decks (state = {}, action) {
 					numQuestions: state[action.question.deckId].numQuestions + 1
 				}
 			}
-		default :
+		}
+		default : {
 			return state
+		}
 	}
 }
