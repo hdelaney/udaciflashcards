@@ -15,8 +15,6 @@ import { purpleBlue, offWhite, grey } from '../utils/colors';
 import { FontAwesome } from '@expo/vector-icons';
 
 
-
-
 class Quiz extends Component {
 	state = {
 		currentQuestion: 0,

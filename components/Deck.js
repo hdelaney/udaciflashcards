@@ -8,30 +8,17 @@ import {
 import Quiz from './Quiz';
 import { purpleBlue, grey, offWhite } from '../utils/colors';
 
-export default function Deck(props) {
-
-
-	startQuiz = () => {
-		const {navigation} = props;
-		const deck = navigation.getParam('deck');
-		props.navigation.navigate(
-			'Quiz',
-			{deckId: deck.deckId}
-		)
-	}
-
-	toAddQuestion = () => {
-		const {navigation} = props;
-		const deck = navigation.getParam('deck');
-		navigation.navigate(
-			'AddQuestion',
-			{deckId: deck.deckId}
-		)
-	}
-
-	const { navigation } = props;
+function Deck({ navigation }) {
 	const deck = navigation.getParam('deck');
+	const { name, numQuestions } = deck;
 
+	const startQuiz = () => {
+		navigation.navigate('Quiz', { deckId: deck.deckId });
+	}
+
+	const toAddQuestion = () => {
+		navigation.navigate('AddQuestion', { deckId: deck.deckId });
+	}
 
 	return (
 		<View style={styles.deckWrapper}>
@@ -40,16 +27,18 @@ export default function Deck(props) {
 				<Text style={styles.questionText}>{deck.numQuestions} question(s)</Text>
 			</View>
 			<View style={styles.buttonWrapper}>
-				<TouchableOpacity style={styles.button} onPress={this.startQuiz}>
+				<TouchableOpacity style={styles.button} onPress={startQuiz}>
 					<Text style={styles.buttonText}>Start Quiz</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.button} onPress={this.toAddQuestion}>
+				<TouchableOpacity style={styles.button} onPress={toAddQuestion}>
 					<Text style={styles.buttonText}>Add a Question</Text>
 				</TouchableOpacity>
 			</View>
 		</View>
 	)
 }
+
+export default Deck;
 
 const styles = StyleSheet.create({
 	deckWrapper: {
