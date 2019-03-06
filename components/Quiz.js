@@ -24,6 +24,14 @@ class Quiz extends Component {
 		showAnswer: false
 	}
 
+	componentWillUnmount () {
+		const { deckId, deck, resetAnswers } = this.props;
+		//update AsyncStorage
+		submitResetCorrectAnswers(deckId);
+		//update Redux
+		resetAnswers(deck);
+	}
+
 	handleLocalNotifcation = () => {
 		clearLocalNotifications()
 			.then(setLocalNotification)
