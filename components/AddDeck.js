@@ -11,19 +11,11 @@ import {
 	Platform,
 	AsyncStorage } from 'react-native';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { submitDeck, submitNewQuestionDeck } from '../utils/api';
 import { generateAnId } from '../utils/_DATA';
 import { addDeck } from '../actions/decks';
 import { addNewQuestionDeck } from '../actions/questions';
 import { purpleBlue, grey, offWhite, pink } from '../utils/colors';
-
-
-const deckSchema = Yup.object().shape({
-	deck: Yup.string()
-	.label('Deck')
-	.required('A deck name is required')
-});
 
 
 class AddDeck extends Component {
@@ -36,6 +28,7 @@ class AddDeck extends Component {
 			'correctAnswers': 0
 		}
 	}
+
 
 	toNewDeck = (newDeck) => {
 		const { navigation } = this.props;
@@ -66,32 +59,48 @@ class AddDeck extends Component {
 
 	}
 
+	//Formik validate in combo with disabled prop on TouchableOpacity
+	//is used to disable the TouchableOpacity button entirely
 	render() {
 		return (
 			<View style={styles.addDeckWrapper}>
 				<Text style={styles.deckHeader}>Add a Deck</Text>
 				<Formik
 					initialValues={{ deck: '' }}
-					onSubmit={values => this.addNewDeck(values)}
-					validationSchema={deckSchema}
-				>
-					{(formikProps) => (
+					onSubmit={(values) => this.addNewDeck(values)}
+					validate={(values) => {
+						let errors = [];
+						(!values.deck) && (errors.deck = 'A deck name is required.');
+						return errors;
+					}}>
+					{(formProps) => (
 						<View>
 							<TextInput
 								placeholder='enter flashcard deck name'
-								onChangeText={formikProps.handleChange('deck')}
-								onBlur={formikProps.handleBlur('deck')}
-								value={formikProps.values.deck}
-								selectionColor='#5865f8'
+								onChangeText={formProps.handleChange('deck')}
+								onBlur={formProps.handleBlur('deck')}
+								value={formProps.values.deck}
+								selectionColor={purpleBlue}
 								style={styles.formField}
 							/>
-								<Text style={styles.required}>{formikProps.errors.deck}</Text>
-								<TouchableOpacity style={styles.button} onPress={formikProps.handleSubmit}>
-									<Text style={styles.buttonText}>Submit</Text>
-								</TouchableOpacity>
+							<TouchableOpacity
+								style={(formProps.isSubmitting || !formProps.values.deck) ? (
+									styles.disabledButton
+									) : (
+									styles.button
+								)}
+								onPress={formProps.handleSubmit}
+								disabled={formProps.isSubmitting || !formProps.values.deck}
+							>
+								<Text style={(formProps.isSubmitting || !formProps.values.deck) ? (
+									styles.disabledButtonText
+									) : (
+									styles.buttonText
+								)}>Submit</Text>
+							</TouchableOpacity>
 						</View>
 					)}
-				</Formik>
+					</Formik>
 			</View>
 		)
 	}
@@ -129,8 +138,23 @@ const styles = StyleSheet.create({
 		borderColor: purpleBlue,
 		backgroundColor: Platform.OS === 'ios' ? offWhite : purpleBlue
 	},
+	disabledButton: {
+		alignSelf: 'center',
+		marginVertical: 15,
+		paddingVertical: 10,
+		paddingHorizontal: 10,
+		borderRadius: Platform.OS === 'ios' ? 4 : 0,
+		borderWidth: 0.5,
+		borderColor: '#b9bac6',
+		backgroundColor: '#e3e3e8'
+	},
 	buttonText: {
 		color: Platform.OS === 'ios' ? purpleBlue : '#fff',
+		fontSize: 18,
+		textAlign: 'center'
+	},
+	disabledButtonText: {
+		color: '#b9bac6',
 		fontSize: 18,
 		textAlign: 'center'
 	},
