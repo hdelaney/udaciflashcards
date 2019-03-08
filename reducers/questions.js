@@ -3,7 +3,7 @@ import {
 	ADD_QUESTION,
 	REMOVE_DECK_QUESTIONS,
 	ADD_NEW_QUESTION_DECK
-} from '../actions/questions';
+} from '../actions/actionTypes';
 
 
 export default function questions (state = {}, action) {

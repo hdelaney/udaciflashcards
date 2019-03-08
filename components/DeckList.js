@@ -25,6 +25,7 @@ class DeckList extends Component {
 
   renderDeckItem = (renderItem) => {
   	const { item } = renderItem;
+  	console.log('render Item: ', item);
   	return (
   		<View key={item.deckId} style={styles.deckListItem}>
 				<TouchableOpacity onPress={() => this.props.navigation.navigate(

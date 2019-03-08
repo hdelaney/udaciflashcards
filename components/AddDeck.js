@@ -5,7 +5,6 @@ import {
 	View,
 	TextInput,
 	ActivityIndicator,
-	Button,
 	TouchableOpacity,
 	StyleSheet,
 	Platform,

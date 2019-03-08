@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps (state, { navigation }) {
 	const { deckId } = navigation.state.params
+	console.log('Ouiz state: ', state);
 	return {
 		deckId,
 		numberQuestions: (state.questions[deckId]).length ? (state.questions[deckId]).length : null,
